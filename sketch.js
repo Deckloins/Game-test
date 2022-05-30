@@ -55,34 +55,38 @@ function draw() {
   //
 
   // Detect if the player is on the point and changes his place if true
-  if (sQx + sQs + speed > Px && sQx + speed < Px + 10 &&
-    sQy + 20 > Py && sQy < Py + 10) {
-    // If the points' X (RdX) is on the Score text, make so RdY is not in it too
-    let RdX = random(0, 330);
-    Px = RdX;
-    if (RdX >= 300) {
-      let RdY = random(190, 400)
-      Py = RdY
-    } else {
-      let RdY = random(0, 400);
-      Py = RdY
+  function IsPlayerTouching() {
+    if (sQx + sQs + speed > Px && sQx + speed < Px + 10 && sQy + 20 > Py && sQy < Py + 10) {
+      // If the points' X (RdX) is on the Score text, make so RdY is not in it too
+      let RdX = random(0, 330);
+      Px = RdX;
+      if (RdX >= 300) {
+        let RdY = random(190, 400)
+        Py = RdY
+      } else {
+        let RdY = random(0, 400);
+        Py = RdY
+      }
+      Score++;
+      return Score;
     }
-    Score++;
-
-    //Changes the difficulty //I'll had more stuff to it later 
-    if (Score > 40) {
-      time = 4
-      speed = 10
-    } else if (Score % 10 == 0) {
-      time = 10 - (x * 2)
-      x++;
-    } else if (Score < 10) {
-      time = 10
-    }
-    timer = time
-
-
   }
+  IsPlayerTouching();
+  //Changes the difficulty //I'll had more stuff to it later 
+   if (Score > 40) {
+     time = 4
+     speed = 10
+   } else if (Score % 10 == 0) {
+     time = 10 - (x * 2)
+     x++;
+   } else if (Score < 10) {
+     time = 10
+   }
+   timer = time
+   
+
+
+
 
 
   /*
@@ -90,14 +94,14 @@ function draw() {
   Timer // I'll try to make this part clearer
 
   */
-
-  if (frameCount % 60 == 0 && timer > 0) {
-    timer--;
-  }
-  // Dont start the timer if the player hasn't move
+// Dont start the timer if the player hasn't move
   if (sQx == 5 && sQy == 5) {
     timer = time
+  }else if (frameCount % 60 == 0 && timer > 0) {
+    timer--;
   }
+  
+  
   //Reset the score if time = 0
   if (timer == 0) {
     Score = 0
