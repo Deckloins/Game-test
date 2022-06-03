@@ -23,9 +23,8 @@ canvas {
   margin: 5px auto;
 }
 #Headline {
-  text-align: center;
-  vertical-align: top;
   margin: auto;
+  text-align: center;
   color: blue;
   font-size: 2em;
   font-family: 'Courier New', Courier, monospace;

@@ -9,16 +9,20 @@
 
   <link rel="stylesheet" type="text/css" href="style.css">
 
-
+  <!--
+  <script src="http://cdnjs.cloudflare.com/ajax/libs/p5.js/0.5.6/p5.js"></script>
+  <script src="http://cdnjs.cloudflare.com/ajax/libs/p5.js/0.5.6/addons/p5.dom.js"></script>
+   -->
   <script src="libraries/p5.min.js"></script>
   <script src="libraries/p5.sound.min.js"></script>
   <script src="sketch.js"> </script>
+  <script> debugger;</script>
 
 </head>
 
 <body>
   <div id="main">
-    <canvas id="Game" width="400" height="400" />
+    <!-- <canvas id="Game" width="400" height="400" /> -->
   </div>
   <div id="Headline">My first project!</div>
   <div id="newGame" onclick="runGame()" onmouseover="this.style.backgroundColor = 'darkblue'"
@@ -31,12 +35,14 @@
       document.getElementById("Headline").style.display = 'none';
       document.getElementById("main").style.display = 'block';
       document.getElementById("backButton").style.display = 'block'
+      gameIsPlaying = true;
     };
     var goBack = function () {
       document.getElementById("backButton").style.display = 'none';
       document.getElementById("Headline").style.display = 'block';
       document.getElementById("newGame").style.display = 'block';
-      clear()
+      gameIsPlaying = false;
+
     }
   </script>
 </body>
