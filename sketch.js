@@ -3,6 +3,7 @@
 Variables
 
 */
+const canvas =document.getElementById('Game')
 let x = 0;
 let speed = 4;
 let Score = 0;

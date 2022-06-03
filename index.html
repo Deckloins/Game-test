@@ -16,7 +16,30 @@
 
 </head>
 
-<body></body>
+<body>
+  <div id="main">
+    <canvas id="Game" width="400" height="400" />
+  </div>
+  <div id="Headline">My first project!</div>
+  <div id="newGame" onclick="runGame()" onmouseover="this.style.backgroundColor = 'darkblue'"
+    onmouseout="this.style.backgroundColor ='grey'">New Game</div>
+  <div id="backButton" onclick="goBack()" onmouseover="this.style.backgroundColor = 'darkblue'"
+    onmouseout="this.style.backgroundColor ='grey'">Back</div>
+  <script>
+    var runGame = function () {
+      document.getElementById("newGame").style.display = 'none';
+      document.getElementById("Headline").style.display = 'none';
+      document.getElementById("main").style.display = 'block';
+      document.getElementById("backButton").style.display = 'block'
+    };
+    var goBack = function () {
+      document.getElementById("backButton").style.display = 'none';
+      document.getElementById("Headline").style.display = 'block';
+      document.getElementById("newGame").style.display = 'block';
+      clear()
+    }
+  </script>
+</body>
 
 
 
