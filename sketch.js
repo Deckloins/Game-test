@@ -6,50 +6,50 @@ Variables
 let gameIsPlaying = false;
 const canvas = document.getElementById('Game')
 let x = 0;
-let speed = 4;
-let Score = 0;
+let playerSpeed = 4;
+let score = 0;
 let timer = 10 // I'll try to make the code more clear for the time/timer variable 
 let time = 10
-let posTimer = 340;
-let posScore = 340
+let timerPosition = 340;
+let scorePosition = 340
 
 function setup() {
   createCanvas(400, 400);
 
   //Square variables
-  sQx = 5;
-  sQy = 5;
-  sQs = 20;
+  playerX = 5;
+  playerY = 5;
+  playerSize = 20;
 
   //Points variable
-  Px = 300;
-  Py = 300;
-  Ps = 10;
+  pointX = 300;
+  pointY = 300;
+  pointSize = 10;
 
 }
-//if (gameIsPlaying===true) {
+
 function draw() {
   if (gameIsPlaying === true) {
     background(100);
     //Create the points
-    square(Px, Py, 10)
+    square(pointX, pointY, 10)
     //Create the Player (Square)
     fill(255, 204, 0)
-    square(sQx, sQy, sQs)
+    square(playerX, playerY, playerSize)
 
 
 
 
 
     //Makes the Square move && Stop him from getting out the edges
-    if (keyIsDown(UP_ARROW) && !(sQy <= 0)) {
-      sQy -= speed
-    } else if (keyIsDown(DOWN_ARROW) && !(sQy + sQs >= 400)) {
-      sQy += speed
-    } else if (keyIsDown(LEFT_ARROW) && !(sQx <= 0)) {
-      sQx -= speed;
-    } else if (keyIsDown(RIGHT_ARROW) && !(sQx + sQs >= 400)) {
-      sQx += speed;
+    if (keyIsDown(UP_ARROW) && !(playerY <= 0)) {
+      playerY -= playerSpeed
+    } else if (keyIsDown(DOWN_ARROW) && !(playerY + playerSize >= 400)) {
+      playerY += playerSpeed
+    } else if (keyIsDown(LEFT_ARROW) && !(playerX <= 0)) {
+      playerX -= playerSpeed;
+    } else if (keyIsDown(RIGHT_ARROW) && !(playerX + playerSize >= 400)) {
+      playerX += playerSpeed;
     }
 
     //
@@ -58,33 +58,33 @@ function draw() {
 
     // Detect if the player is on the point and changes his place if true
     function IsPlayerTouching() {
-      if (sQx + sQs + speed > Px && sQx + speed < Px + 10 && sQy + 20 > Py && sQy < Py + 10) {
-        // If the points' X (RdX) is on the Score text, make so RdY is not in it too
+      if (playerX + playerSize + playerSpeed > pointX && playerX + playerSpeed < pointX + 10 && playerY + 20 > pointY && playerY < pointY + 10) {
+        // If the points' X (RdX) is on the score text, make so RdY is not in it too
         let RdX = random(0, 330);
-        Px = RdX;
+        pointX = RdX;
         if (RdX >= 300) {
           let RdY = random(190, 400)
-          Py = RdY
+          pointY = RdY
         } else {
           let RdY = random(0, 400);
-          Py = RdY
+          pointY = RdY
         }
-        Score++;
-        return Score;
+        score++;
+        return true;
       }
     }
     IsPlayerTouching();
     //Changes the difficulty //I'll had more stuff to it later 
-    if (Score > 40) {
+    /*if (score > 40) {
       time = 4
-      speed = 10
-    } else if (Score % 10 == 0) {
+      playerSpeed = 10
+    } else if (score % 10 == 0 && score != 0) {
       time = 10 - (x * 2)
       x++;
-    } else if (Score < 10) {
+    } else if (score < 10) {
       time = 10
-    }
-    timer = time
+    }*/
+    timer = time 
 
 
 
@@ -97,7 +97,7 @@ function draw() {
 
     */
     // Dont start the timer if the player hasn't move
-    if (sQx == 5 && sQy == 5) {
+    if (playerX == 5 && playerY == 5) {
       timer = 10
     } else if (frameCount % 60 == 0 && timer > 0) {
       timer--;
@@ -106,20 +106,20 @@ function draw() {
 
     //Reset the score if time = 0
     if (timer == 0) {
-      Score = 0
+      score = 0
     }
 
     //Align the timer text
     if (timer == 10) {
-      posTimer = 310;
+      timerPosition = 310;
     } else {
-      posTimer = 340
+      timerPosition = 340
     }
-    //Align Score
-    if (Score < 10) {
-      posScore = 340
+    //Align score
+    if (score < 10) {
+      scorePosition = 340
     } else {
-      posScore = 310
+      scorePosition = 310
     }
 
     /*
@@ -135,14 +135,14 @@ function draw() {
     //Print the score and the timer to the screen
     fill(255)
     textSize(25)
-    text("Score :", 300, 30)
+    text("score :", 300, 30)
     text("Timer :", 300, 120)
     textSize(50)
-    text(Score, posScore, 90)
-    text(timer, posTimer, 170)
-  }else if (gameIsPlaying === false) {
+    text(score, scorePosition, 90)
+    text(timer, timerPosition, 170)
+  } else if (gameIsPlaying === false) {
     clear()
-    Score = 0
+    score = 0
     time = 10
   }
 }
