@@ -4,7 +4,7 @@ Variables
 
 */
 let gameIsPlaying = false;
-//const canvas = document.getElementById('Game')
+const canvas = document.getElementById('main')
 let x = 0;
 let playerSpeed = 4;
 let score = 0;
