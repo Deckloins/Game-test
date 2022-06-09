@@ -10,7 +10,7 @@ canvas {
 #main {
   display: none;
 }
-#newGame, #backButton {
+#newGame, #backButton, #credits {
   text-align: center;
   vertical-align: top;
   border: 3px solid blue;
