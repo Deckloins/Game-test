@@ -4,7 +4,7 @@ Variables
 
 */
 let gameIsPlaying = false;
-const canvas = document.getElementById('Game')
+//const canvas = document.getElementById('Game')
 let x = 0;
 let playerSpeed = 4;
 let score = 0;
@@ -16,7 +16,7 @@ let scorePosition = 340
 function setup() {
   createCanvas(400, 400);
 
-  //Square variables
+  //Player variables
   playerX = 5;
   playerY = 5;
   playerSize = 20;
