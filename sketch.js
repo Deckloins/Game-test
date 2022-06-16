@@ -32,7 +32,6 @@ function setup() {
 
 function draw() {
   IsPlayerTouching();
-  //countDown()
   alignTimerText();
   if (gameIsPlaying === true) {
     setInterval(countDown, 1000)
