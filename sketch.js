@@ -31,6 +31,8 @@ function setup() {
 }
 
 function draw() {
+  time -= 1/60
+  nf(time, 2,0)
   IsPlayerTouching();
   alignTimerText();
   if (gameIsPlaying === true) {
