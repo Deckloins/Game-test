@@ -4,7 +4,7 @@
 <head>
   <meta charset="utf-8" />
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
-  <meta name="author" content="Tristan Lafleur" >
+  <meta name="author" content="Tristan Lafleur">
   <title>Sketch</title>
 
   <link rel="stylesheet" type="text/css" href="style.css">
@@ -23,6 +23,7 @@
 </head>
 
 <body>
+
   <div id="main">
     <!-- <canvas id="Game" width="400" height="400" /> -->
 
@@ -30,7 +31,7 @@
   <div id="Headline">My first project!</div>
   <div id="newGame" onclick="runGame()" onmouseover="this.style.backgroundColor = 'darkblue'"
     onmouseout="this.style.backgroundColor ='grey'">New Game</div>
-  <div id="credits" onclick="goCredits()" onmouseover="this.style.backgroundColor = 'darkblue'"
+  <div id="creditsButton" onclick="goCredits()" onmouseover="this.style.backgroundColor = 'darkblue'"
     onmouseout="this.style.backgroundColor = 'grey'">Credits</div>
   <div id="backButton" onclick="goBack()" onmouseover="this.style.backgroundColor = 'darkblue'"
     onmouseout="this.style.backgroundColor ='grey'" style="display: none;">Back</div>
@@ -40,7 +41,10 @@
       document.getElementById("Headline").style.display = 'block';
       document.getElementById("newGame").style.display = 'block';
       document.getElementById("main").style.display = 'block';
-      document.getElementById("credits").style.display = 'block';
+
+      document.getElementById("credits").style.display = 'none'
+      document.getElementById("creditsButton").style.display = 'block';
+
       document.getElementById("backButton").style.display = 'none';
     }
   </script>
@@ -49,7 +53,10 @@
       document.getElementById("Headline").style.display = 'none';
       document.getElementById("newGame").style.display = 'none';
       document.getElementById("main").style.display = 'block';
-      document.getElementById("credits").style.display = 'none';
+
+      document.getElementById("creditsButton").style.display = 'none';
+      document.getElementById("credits").style.display = 'none'
+
       document.getElementById("backButton").style.display = 'block';
       gameIsPlaying = true;
     };
@@ -57,18 +64,26 @@
       document.getElementById("Headline").style.display = 'none';
       document.getElementById("newGame").style.display = 'none';
       document.getElementById("main").style.display = 'none';
-      document.getElementById("credits").style.display = 'none';
+
+      document.getElementById("credits").style.display = 'block';
+      document.getElementById("creditsButton").style.display = 'none';
+
       document.getElementById("backButton").style.display = 'block';
     }
     var goBack = function () {
       document.getElementById("Headline").style.display = 'block';
       document.getElementById("newGame").style.display = 'block';
-      document.getElementById("credits").style.display = 'block'
+
+      document.getElementById("creditsButton").style.display = 'block'
+      document.getElementById("credits").style.display = 'none'
+      
       document.getElementById("backButton").style.display = 'none';
       gameIsPlaying = false;
 
     }
   </script>
+  <p id="credits" style="font-size: 40px; font-weight: 700">Tristan Lafleur </p>
+  <p id="credits"> (yeah... only me)</p>
 </body>
 
 
