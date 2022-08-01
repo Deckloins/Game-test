@@ -31,7 +31,7 @@ function draw() {
   IsPlayerTouching();
   alignTimerText();
   gameOver();
-  
+
   if (gameIsPlaying === true) {
 
     background(100);
@@ -69,8 +69,11 @@ function draw() {
     text("Timer :", 300, 120)
     textSize(50)
     text(score, scorePosition, 90)
-    text(nf(time, 1, 1), timerPosition, 170)
-
+    if (time < 10) {
+      text(nf(time, 1, 1), timerPosition, 170)
+    } else {
+      text(nf(time, 2, 0), timerPosition, 170)
+    }
 
 
   } else if (gameIsPlaying === false) {
@@ -85,7 +88,7 @@ function draw() {
 
 //Align the timer and score text
 function alignTimerText() {
-  
+
   if (score < 10) {
     scorePosition = 340;
   } else {
@@ -125,7 +128,7 @@ function didPlayerMove() {
 function gameOver() {
   if (time <= 0) {
     score = 0;
-    timer = 0;
+    time = 0;
     return true;
   }
   return false;
