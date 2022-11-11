@@ -5,23 +5,24 @@ Variables
 */
 let gameIsPlaying = false;
 let playerSpeed = 4;
-var time = 10
+let time = 10
 let timerPosition = 310;
 let score = 0;
 let scorePosition = 340
 
+//Player variables
+let playerX = 5;
+let playerY = 5;
+let playerSize = 20;
+
+//Points variable
+let pointX = 300;
+let pointY = 300;
+let pointSize = 10;
+
 function setup() {
   createCanvas(400, 400);
 
-  //Player variables
-  playerX = 5;
-  playerY = 5;
-  playerSize = 20;
-
-  //Points variable
-  pointX = 300;
-  pointY = 300;
-  pointSize = 10;
 
 }
 
@@ -33,6 +34,8 @@ function draw() {
   gameOver();
 
   if (gameIsPlaying === true) {
+    //Detect player movement and collisions
+    playerMovement();
 
     background(100);
     //Create the points
@@ -42,22 +45,12 @@ function draw() {
     square(playerX, playerY, playerSize)
 
 
-    //Detect player movement and collisions
-    if (keyIsDown(UP_ARROW) && !(playerY <= 0)) {
-      playerY -= playerSpeed
-    } else if (keyIsDown(DOWN_ARROW) && !(playerY + playerSize >= 400)) {
-      playerY += playerSpeed
-    } else if (keyIsDown(LEFT_ARROW) && !(playerX <= 0)) {
-      playerX -= playerSpeed;
-    } else if (keyIsDown(RIGHT_ARROW) && !(playerX + playerSize >= 400)) {
-      playerX += playerSpeed;
-    }
 
 
     /*Timer */
 
     if (didPlayerMove() === true && gameOver() === false) {
-      time -= 1 / 60
+      time -= 1 / 60;
     }
 
 
@@ -76,7 +69,7 @@ function draw() {
     }
 
 
-  } else if (gameIsPlaying === false) {
+  } else /*(gameIsPlaying === false)*/ {
     clear()
     score = 0;
     time = 10;
@@ -85,6 +78,18 @@ function draw() {
   }
 }
 
+
+function playerMovement() {
+  if (keyIsDown(UP_ARROW) && playerY > 0) {
+    playerY -= playerSpeed;
+  } else if (keyIsDown(DOWN_ARROW) && playerY + playerSize < 400) {
+    playerY += playerSpeed;
+  } else if (keyIsDown(LEFT_ARROW) && playerX > 0) {
+    playerX -= playerSpeed;
+  } else if (keyIsDown(RIGHT_ARROW) && playerX + playerSize < 400) {
+    playerX += playerSpeed;
+  }
+}
 
 //Align the timer and score text
 function alignTimerText() {
@@ -106,20 +111,20 @@ function IsPlayerTouching() {
     pointX = RdX;
     if (RdX >= 300) {
       let RdY = random(190, 400)
-      pointY = RdY
+      pointY = RdY;
     } else {
       let RdY = random(0, 400);
-      pointY = RdY
+      pointY = RdY;
     }
     score++;
-    time = 10
+    time = 10;
     return true;
   }
 }
 //Don't start the timer if the player hasn't moved yet
 function didPlayerMove() {
-  if (playerX == 5 && playerY == 5 && time == 10) {
-    time = 10
+  if (playerX === 5 && playerY === 5 && time === 10) {
+    time = 10;
   } else {
     return true;
   }
