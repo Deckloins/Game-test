@@ -1,6 +1,6 @@
 /*
 
-Variables
+* Variables
 
 */
 let gameIsPlaying = false;
@@ -23,7 +23,6 @@ let pointSize = 10;
 function setup() {
   createCanvas(400, 400);
 
-
 }
 
 function draw() {
@@ -42,12 +41,13 @@ function draw() {
     square(pointX, pointY, 10)
     //Create the Player (Square)
     fill(255, 204, 0)
+    
     square(playerX, playerY, playerSize)
 
 
 
 
-    /*Timer */
+    // * Timer 
 
     if (didPlayerMove() === true && gameOver() === false) {
       time -= 1 / 60;
@@ -78,7 +78,7 @@ function draw() {
   }
 }
 
-
+// Detect player movement and collisionsp
 function playerMovement() {
   if (keyIsDown(UP_ARROW) && playerY > 0) {
     playerY -= playerSpeed;
