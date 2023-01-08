@@ -29,10 +29,10 @@ function draw() {
 
   didPlayerMove();
   IsPlayerTouching();
-  alignTimerText();
+  alignTimerText(); //! TODO 
   gameOver();
 
-  if (gameIsPlaying === true) {
+  if (gameIsPlaying === true) { //! TODO
     //Detect player movement and collisions
     playerMovement();
 
@@ -55,7 +55,7 @@ function draw() {
 
 
 
-    //Print the score and the timer to the screen 
+    //Print the score and the timer to the screen //! TODO
     fill(255)
     textSize(25)
     text("Score :", 300, 30)
