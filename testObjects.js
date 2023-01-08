@@ -19,7 +19,12 @@ class Player {
     }
 
     didMove() {
-        return !(this.x === 5 && this.y === 5 && panel.timeLeft === 10);
+        return !(this.x === 5 && this.y === 5 && timeLeft === 10);
+    }
+
+    show() {
+        fill(255, 204, 0);
+        square(this.x, this.y, this.size); 
     }
 
 }
@@ -47,30 +52,44 @@ class Food {
                 let RdY = random(0, 400);
                 this.y = RdY;
             }
-            panel.score++;
-            panel.timeLeft = 10;
+            //panel.score++;
+            //panel.timeLeft = 10;
             return true;
         }
     }
-}
-
-class Panel extends Food {
-    constructor() {
-        super(Food)
-        this.timeLeft = 10;
-        this.score = 0;
-    }
-
-    isEat() {
-        super.isEat()
-        this.score++;
-        this.timeLeft = 10;
+    show() {
+        square(this.x, this.y, this.size)
     }
 }
-let player = new Player();
-let food = new Food(player.x, player.y, player.size, playerSpeed);
-let panel = new Panel();
+
+let player = new Player;
+let food = new Food;
+let score = 0;
+let timeLeft = 10;
 
 function setup() {
     createCanvas(400, 400);
+}
+
+function draw() {
+    player.show();
+    food.show();
+    // Panel
+    if (food.isEat) {
+        score++;
+        timeLeft = 10;
+    }
+
+    if (player.didMove && gameOver() === false){
+        timeLeft -= 1/60;
+    }
+}
+
+function gameOver() {
+    if (timeLeft <= 0) {
+        score = 0;
+        timeLeft = 0;
+        return true;
+      }
+      return false;
 }
