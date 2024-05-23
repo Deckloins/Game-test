@@ -9,81 +9,68 @@
 
   <link rel="stylesheet" type="text/css" href="style.css">
 
-  <!--
-  <script src="http://cdnjs.cloudflare.com/ajax/libs/p5.js/0.5.6/p5.js"></script>
-  <script src="http://cdnjs.cloudflare.com/ajax/libs/p5.js/0.5.6/addons/p5.dom.js"></script>
-   -->
   <script src="libraries/p5.min.js"></script>
   <script src="libraries/p5.sound.min.js"></script>
-  <script src="sketch.js"> </script> 
- <!-- <script src="withObjects.js"></script> -->
-  <script>
-    debugger;
-  </script>
+  <script src="testObjects.js"></script>
 
 </head>
 
-<body>
+<body onload="mainMenu()">
 
-  <div id="main">
-
-  </div>
   <div id="Headline">My first project!</div>
-  <div id="newGame" onclick="runGame()" onmouseover="this.style.backgroundColor = 'darkblue'"
-    onmouseout="this.style.backgroundColor ='grey'">New Game</div>
-  <div id="creditsButton" onclick="goCredits()" onmouseover="this.style.backgroundColor = 'darkblue'"
-    onmouseout="this.style.backgroundColor = 'grey'">Credits</div>
-  <div id="backButton" onclick="goBack()" onmouseover="this.style.backgroundColor = 'darkblue'"
-    onmouseout="this.style.backgroundColor ='grey'" style="display: none;">Back</div>
+  <button id="newGame" onclick="runGame()" onmouseenter="this.style.backgroundColor = 'darkblue'"
+    onmouseleave="this.style.backgroundColor ='grey'">New Game</button>
 
-  <script onload="mainMenu()">
+  <button id="creditsButton" onclick="goCredits()" onmouseover="this.style.backgroundColor = 'darkblue'"
+    onmouseout="this.style.backgroundColor = 'grey'">Credits</button>
+
+  <button id="backButton" onclick="goBack()" onmouseover="this.style.backgroundColor = 'darkblue'"
+    onmouseout="this.style.backgroundColor ='grey'" style="display: none;">Back</button>
+
+  <script>
     var mainMenu = function () {
       document.getElementById("Headline").style.display = 'block';
       document.getElementById("newGame").style.display = 'block';
-      document.getElementById("main").style.display = 'block';
 
-      document.getElementById("credits").style.display = 'none'
       document.getElementById("creditsButton").style.display = 'block';
-
+      document.getElementById("credits").style.display = 'none'
+      
       document.getElementById("backButton").style.display = 'none';
     }
   </script>
+
   <script>
+    var goBack = function () {
+     document.getElementById("defaultCanvas0").style.display = 'none';
+     mainMenu()
+    };
     var runGame = function () {
       document.getElementById("Headline").style.display = 'none';
       document.getElementById("newGame").style.display = 'none';
-      document.getElementById("main").style.display = 'block';
+      document.getElementById("defaultCanvas0").style.display = 'flex';
 
       document.getElementById("creditsButton").style.display = 'none';
       document.getElementById("credits").style.display = 'none'
 
       document.getElementById("backButton").style.display = 'block';
-      gameIsPlaying = true;
     };
     var goCredits = function () {
       document.getElementById("Headline").style.display = 'none';
       document.getElementById("newGame").style.display = 'none';
-      document.getElementById("main").style.display = 'none';
+      document.getElementById("defaultCanvas0").style.display = 'none';
 
       document.getElementById("credits").style.display = 'block';
       document.getElementById("creditsButton").style.display = 'none';
 
       document.getElementById("backButton").style.display = 'block';
-    }
-    var goBack = function () {
-      document.getElementById("Headline").style.display = 'block';
-      document.getElementById("newGame").style.display = 'block';
-
-      document.getElementById("creditsButton").style.display = 'block'
-      document.getElementById("credits").style.display = 'none'
-      
-      document.getElementById("backButton").style.display = 'none';
-      gameIsPlaying = false;
-
-    }
+    };  
   </script>
-  <p id="credits" style="font-size: 40px; font-weight: 700">Tristan Lafleur </p>
-  <p id="credits"> (yeah... only me)</p>
+
+  <div id="credits">
+    <p style="font-size: 40px; font-weight: 700">Tristan Lafleur</p>
+    <p> (yeah... only me)</p>
+  </div>
+ 
 </body>
 
 

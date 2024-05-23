@@ -1,9 +1,9 @@
 class Player {
-    constructor() {
+    constructor(size, speed) {
         this.x = 5;
         this.y = 5;
-        this.size = 20;
-        this.speed = 4;
+        this.size = size;
+        this.speed = speed;
     }
 
     move() {
@@ -30,17 +30,17 @@ class Player {
 }
 
 class Food {
-    constructor(playerX, playerY, playerSize, playerSpeed) {
-        this.playerX = playerX;
-        this.playerY = playerY;
-        this.playerSize = playerSize;
-        this.x = 300;
-        this.y = 300;
-        this.size = 10;
+    constructor(x, y, size) { 
+        this.x = x;
+        this.y = y;
+        this.size = size;
     }
-
+    
     isEat() {
-        if (this.playerX + this.playerSize + this.playerSpeed > this.x && this.playerX + this.playerSpeed < this.x + 10 && this.playerY + 20 > this.y && this.playerY < this.y + 10) {
+        if (player1.x + player1.size + player1.speed > this.x
+             && player1.x + player1.speed < this.x + this.size 
+             && player1.y + player1.size > this.y 
+             && player1.y < this.y + this.size) {
 
             // If the points' X (RdX) is on the score text, make so RdY is not in it too
             let RdX = random(0, 330);
@@ -62,25 +62,47 @@ class Food {
     }
 }
 
-let player = new Player;
-let food = new Food;
+let player1 = new Player(20, 5);
+let food = new Food(300, 300, 10);
 let score = 0;
 let timeLeft = 10;
+
+let gameIsPlaying = false;
+let timerPosition = 310;
+let scorePosition = 340
 
 function setup() {
     createCanvas(400, 400);
 }
 
 function draw() {
-    player.show();
+    background(100)
+
+    player1.show();
     food.show();
-    // Panel
-    if (food.isEat) {
+
+    player1.move();
+    gameOver();
+
+    if (food.isEat()) {
         score++;
         timeLeft = 10;
     }
 
-    if (player.didMove && gameOver() === false){
+    // * Panneau 
+    fill(255)
+    textSize(25)
+    text("Score :", 300, 30)
+    text("Timer :", 300, 120)
+    textSize(50)
+    text(score, scorePosition, 90)
+    if (timeLeft < 10) {
+      text(nf(timeLeft, 1, 1), timerPosition, 170)
+    } else {
+      text(nf(timeLeft, 2, 0), timerPosition, 170)
+    }
+
+    if (player1.didMove() && !gameOver()){
         timeLeft -= 1/60;
     }
 }
@@ -91,5 +113,4 @@ function gameOver() {
         timeLeft = 0;
         return true;
       }
-      return false;
 }
