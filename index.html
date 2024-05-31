@@ -1,79 +1,98 @@
 <!DOCTYPE html>
 <html lang="en">
+	<head>
+		<meta charset="utf-8" />
+		<meta name="viewport" content="width=device-width, initial-scale=1.0" />
+		<meta name="author" content="Tristan Lafleur" />
+		<title>Sketch</title>
 
-<head>
-  <meta charset="utf-8" />
-  <meta name="viewport" content="width=device-width, initial-scale=1.0">
-  <meta name="author" content="Tristan Lafleur">
-  <title>Sketch</title>
+		<link rel="stylesheet" type="text/css" href="style.css" />
 
-  <link rel="stylesheet" type="text/css" href="style.css">
+		<script src="libraries/p5.min.js"></script>
+		<script src="libraries/p5.sound.min.js"></script>
 
-  <script src="libraries/p5.min.js"></script>
-  <script src="libraries/p5.sound.min.js"></script>
-  <script src="testObjects.js"></script>
+		<script src="Food.js"></script>
+		<script src="Player.js"></script>
+		<script src="GamePanel.js"></script>
+		<script src="Main.js"></script>
+	</head>
 
-</head>
+	<body onload="mainMenu()">
+		<div id="Headline">My first project!</div>
+		<button
+			id="newGame"
+			onclick="runGame()"
+			onmouseenter="this.style.backgroundColor = 'darkblue'"
+			onmouseleave="this.style.backgroundColor ='grey'"
+		>
+			New Game
+		</button>
 
-<body onload="mainMenu()">
+		<button
+			id="creditsButton"
+			onclick="goCredits()"
+			onmouseover="this.style.backgroundColor = 'darkblue'"
+			onmouseout="this.style.backgroundColor = 'grey'"
+		>
+			Credits
+		</button>
 
-  <div id="Headline">My first project!</div>
-  <button id="newGame" onclick="runGame()" onmouseenter="this.style.backgroundColor = 'darkblue'"
-    onmouseleave="this.style.backgroundColor ='grey'">New Game</button>
+		<button
+			id="backButton"
+			onclick="goBack()"
+			onmouseover="this.style.backgroundColor = 'darkblue'"
+			onmouseout="this.style.backgroundColor ='grey'"
+			style="display: none"
+		>
+			Back
+		</button>
 
-  <button id="creditsButton" onclick="goCredits()" onmouseover="this.style.backgroundColor = 'darkblue'"
-    onmouseout="this.style.backgroundColor = 'grey'">Credits</button>
+		<script>
+			var mainMenu = function () {
+				document.getElementById("Headline").style.display = "block";
+				document.getElementById("newGame").style.display = "block";
 
-  <button id="backButton" onclick="goBack()" onmouseover="this.style.backgroundColor = 'darkblue'"
-    onmouseout="this.style.backgroundColor ='grey'" style="display: none;">Back</button>
+				document.getElementById("creditsButton").style.display =
+					"block";
+				document.getElementById("credits").style.display = "none";
 
-  <script>
-    var mainMenu = function () {
-      document.getElementById("Headline").style.display = 'block';
-      document.getElementById("newGame").style.display = 'block';
+				document.getElementById("backButton").style.display = "none";
+			};
+		</script>
 
-      document.getElementById("creditsButton").style.display = 'block';
-      document.getElementById("credits").style.display = 'none'
-      
-      document.getElementById("backButton").style.display = 'none';
-    }
-  </script>
+		<script>
+			var goBack = function () {
+				document.getElementById("defaultCanvas0").style.display =
+					"none";
+				mainMenu();
+			};
+			var runGame = function () {
+				document.getElementById("Headline").style.display = "none";
+				document.getElementById("newGame").style.display = "none";
+				document.getElementById("defaultCanvas0").style.display =
+					"flex";
 
-  <script>
-    var goBack = function () {
-     document.getElementById("defaultCanvas0").style.display = 'none';
-     mainMenu()
-    };
-    var runGame = function () {
-      document.getElementById("Headline").style.display = 'none';
-      document.getElementById("newGame").style.display = 'none';
-      document.getElementById("defaultCanvas0").style.display = 'flex';
+				document.getElementById("creditsButton").style.display = "none";
+				document.getElementById("credits").style.display = "none";
 
-      document.getElementById("creditsButton").style.display = 'none';
-      document.getElementById("credits").style.display = 'none'
+				document.getElementById("backButton").style.display = "block";
+			};
+			var goCredits = function () {
+				document.getElementById("Headline").style.display = "none";
+				document.getElementById("newGame").style.display = "none";
+				document.getElementById("defaultCanvas0").style.display =
+					"none";
 
-      document.getElementById("backButton").style.display = 'block';
-    };
-    var goCredits = function () {
-      document.getElementById("Headline").style.display = 'none';
-      document.getElementById("newGame").style.display = 'none';
-      document.getElementById("defaultCanvas0").style.display = 'none';
+				document.getElementById("credits").style.display = "block";
+				document.getElementById("creditsButton").style.display = "none";
 
-      document.getElementById("credits").style.display = 'block';
-      document.getElementById("creditsButton").style.display = 'none';
+				document.getElementById("backButton").style.display = "block";
+			};
+		</script>
 
-      document.getElementById("backButton").style.display = 'block';
-    };  
-  </script>
-
-  <div id="credits">
-    <p style="font-size: 40px; font-weight: 700">Tristan Lafleur</p>
-    <p> (yeah... only me)</p>
-  </div>
- 
-</body>
-
-
-
-
+		<div id="credits">
+			<p style="font-size: 40px; font-weight: 700">Tristan Lafleur</p>
+			<p>(yeah... only me)</p>
+		</div>
+	</body>
 </html>
