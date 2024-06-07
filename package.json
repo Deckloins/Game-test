@@ -1,0 +1,22 @@
+{
+  "name": "game-test",
+  "version": "1.1.0",
+  "description": "Jeu que j'ai inventé\r Me sert à expérimenter avec de nouveaux concepts\r que j'apprends dans mes temps libres",
+  "main": "Main.js",
+  "scripts": {
+    "test": "echo \"Error: no test specified\" && exit 1"
+  },
+  "repository": {
+    "type": "git",
+    "url": "git+https://github.com/Deckloins/Game-test.git"
+  },
+  "author": "Tristan",
+  "license": "ISC",
+  "bugs": {
+    "url": "https://github.com/Deckloins/Game-test/issues"
+  },
+  "homepage": "https://github.com/Deckloins/Game-test#readme",
+  "dependencies": {
+    "p5": "^1.9.4"
+  }
+}
