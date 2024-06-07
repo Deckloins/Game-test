@@ -24,6 +24,7 @@ class GamePanel {
 		if (this.timeLeft <= 0) {
 			this.score = 0;
 			this.timeLeft = 0;
+
 			return true;
 		}
 		return false;

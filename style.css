@@ -20,7 +20,7 @@ canvas#defaultCanvas0 {
   font-family:'Segoe UI', Tahoma, Geneva, Verdana, sans-serif
 }
 
-#newGame, #creditsButton, #backButton  { 
+button  { 
   margin: 5px auto;
   text-align: center;
   vertical-align: middle;
@@ -31,6 +31,14 @@ canvas#defaultCanvas0 {
   font-size: 20px;
   font-family: 'Courier New', Courier, monospace;
  
+}
+
+button:hover {
+  background-color: darkblue;
+}
+
+button:not(:hover){
+  background-color:gray;
 }
 
 #credits { 

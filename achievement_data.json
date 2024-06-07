@@ -1,0 +1,8 @@
+[
+  {
+    "id": 0,
+    "name": "Reach 10 points",
+    "description": "Earn 10 points in a single game",
+    "checkFunction": "(gamePanel) => gamePanel.score >= 10"
+  }
+]
