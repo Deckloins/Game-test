@@ -4,5 +4,11 @@
     "name": "Reach 10 points",
     "description": "Earn 10 points in a single game",
     "checkFunction": "(gamePanel) => gamePanel.score >= 10"
+  },
+  {
+    "id": 1,
+    "name": "Reach 2 points",
+    "description": "Earn 2 points in a single game",
+    "checkFunction": "(gamePanel) => gamePanel.score >= 2"
   }
 ]

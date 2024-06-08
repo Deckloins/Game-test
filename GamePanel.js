@@ -6,6 +6,7 @@ class GamePanel {
 		this.score = 0;
 		this.timeLeft = 10;
 		this.scorePosition = 340;
+		let save;
 	}
 
 	update() {
@@ -21,12 +22,20 @@ class GamePanel {
 	}
 
 	gameOver() {
+		let fileSaved = false;
 		if (this.timeLeft <= 0) {
+			if (!fileSaved) {
+				if (this.save == true){
+					console.log("Saving...");
+					achievementManager.saveUserAchievements('./player1-achievements.json');
+				}
+				fileSaved = true
+			}
 			this.score = 0;
 			this.timeLeft = 0;
-
 			return true;
 		}
+		this.save = false
 		return false;
 	}
 

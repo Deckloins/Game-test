@@ -1,57 +1,72 @@
 class Achievement {
-    static allAchievements = [];
-
-    constructor(id, name, description, checkFunction) {
-        this.id = id;
-        this.name = name;
-        this.description = description;
-        this.checkFunction = checkFunction;
+    constructor(obj) {
+        this.id = obj.id;
+        this.name = obj.name;
+        this.description = obj.description;
+        this.checkFunction = eval(`(${obj.checkFunction})`);
         this.unlocked = false;
-        Achievement.allAchievements.push(this);
     }
 
     check(gamePanel) {
         if (this.checkFunction(gamePanel)) {
-            console.log("Unlocked " + this.name);
+            console.log(`Unlocked ${this.name}`);
             this.unlocked = true;
             return true;
         }
         return false;
     }
-}
 
+    static async loadAchievementsFromJSON(filePath) {
+        const achievements = [];
+        try {
+            const response = await fetch(filePath);
+            const achievementData = await response.json();
+            for (const achievementObj of achievementData) {
+                achievements.push(new Achievement(achievementObj));
+            }
+        } catch (error) {
+            console.error('Error fetching the JSON data:', error);
+        }
+        return achievements;
+    }
 
-class AchievementListener {
-    constructor(id, gamePanel){ // ID of the achievement to listen to
-        this.id = id;
-        this.gamePanel = gamePanel;
-    };
+    static async loadUserAchievementsFromJSON(filePath) {
+        const data = await fetch(filePath);
+        const unlockedAchievements = await data.json();
+        return Array.isArray(unlockedAchievements) ? unlockedAchievements : [];
+    }
 
-    check(id){
-        const achievement = Achievement.allAchievements.find(a => a.id === id);
-        return achievement.check(this.gamePanel);
+    static saveUserAchievementsToJSON(filePath, unlockedAchievements) {
+        const data = JSON.stringify(unlockedAchievements);
+        saveJSON(data, filePath);
     }
 }
 
 class AchievementManager {
     constructor(gamePanel) {
         this.achievements = [];
-        this.unlocked = []; // TODO Get this from the server to remove them from achievement[]
-        this.listeners = [];
+        this.unlockedAchievements = [];
         this.gamePanel = gamePanel;
     }
 
-    add(achievement) {
-        this.achievements.push(achievement);
-        this.listeners.push(new AchievementListener(achievement.id, this.gamePanel));
+    async loadAchievements(filePath) {
+        this.achievements = await Achievement.loadAchievementsFromJSON(filePath)
+    }
+
+
+    async loadUserAchievements(filePath) {
+        this.unlockedAchievements = await Achievement.loadUserAchievementsFromJSON(filePath);
     }
 
     check() {
-        for (let listener of this.listeners) {
-            if (listener.check(listener.id)) {
-                this.listeners = this.listeners.filter(l => l !== listener);
-                this.unlocked.push(listener.id);
+        for (const achievement of this.achievements) {
+            if (!this.unlockedAchievements.includes(achievement.id) && achievement.check(this.gamePanel)) {
+                this.unlockedAchievements.push(achievement.id);
             }
-        } 
+        }
+    }
+
+    saveUserAchievements(filePath) {
+        Achievement.saveUserAchievementsToJSON(filePath, this.unlockedAchievements);
     }
 }
