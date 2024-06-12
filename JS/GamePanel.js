@@ -26,7 +26,7 @@ class GamePanel {
 			if (this.save == 0) {
 				this.save++;
 				console.log("Saving...");
-				achievementManager.saveUserAchievements('player1-achievements.json');
+				achievementManager.saveUserAchievements();
 			}
 			this.score = 0;
 			this.timeLeft = 0;
