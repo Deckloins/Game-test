@@ -48,14 +48,13 @@ class Achievement {
 		fetch("/user-achievements", {
 			method: "POST",
 			headers: {
-				"Content-Type": "text/html",
+				"Content-Type": "application/json",
 			},
-			body: unlockedAchievements,
+			body: JSON.stringify(unlockedAchievements),
 		})
 			.then((response) => {
 				if (response.ok) {
 					// TODO implement saving to the DB
-					console.log(unlockedAchievements);
 					console.log("User achievements data saved successfully");
 				} else {
 					console.error(
