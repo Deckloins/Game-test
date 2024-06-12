@@ -16,7 +16,7 @@ class Achievement {
 		return false;
 	}
 
-	static async loadAchievementsFromJSON() {
+	static async loadAchievementsFromDB() {
 		const achievements = [];
 		try {
 			const response = await fetch("/achievements");
@@ -30,7 +30,7 @@ class Achievement {
 		return achievements;
 	}
 
-	static async loadUserAchievementsFromJSON() {
+	static async loadUserAchievementsFromDB() {
 		let unlockedAchievements = [];
 		try {
 			const response = await fetch("/user-achievements");
@@ -44,7 +44,7 @@ class Achievement {
 		return unlockedAchievements;
 	}
 
-	static saveUserAchievementsToJSON(unlockedAchievements) {
+	static saveUserAchievementsToDB(unlockedAchievements) {
 		fetch("/user-achievements", {
 			method: "POST",
 			headers: {
@@ -77,12 +77,12 @@ class AchievementManager {
 	}
 
 	async loadAchievements() {
-		this.achievements = await Achievement.loadAchievementsFromJSON();
+		this.achievements = await Achievement.loadAchievementsFromDB();
 	}
 
 	async loadUserAchievements() {
 		this.unlockedAchievements =
-			await Achievement.loadUserAchievementsFromJSON();
+			await Achievement.loadUserAchievementsFromDB();
 	}
 
 	check() {
@@ -97,7 +97,7 @@ class AchievementManager {
 	}
 
 	saveUserAchievements() {
-		Achievement.saveUserAchievementsToJSON(this.unlockedAchievements);
+		Achievement.saveUserAchievementsToDB(this.unlockedAchievements);
 	}
 }
 

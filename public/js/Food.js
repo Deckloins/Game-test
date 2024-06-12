@@ -30,3 +30,4 @@ class Food {
 		square(this.x, this.y, this.size);
 	}
 }
+
