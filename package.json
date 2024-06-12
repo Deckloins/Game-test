@@ -17,6 +17,8 @@
   },
   "homepage": "https://github.com/Deckloins/Game-test#readme",
   "dependencies": {
+    "express": "^4.19.2",
+    "mongodb": "^6.7.0",
     "p5": "^1.9.4"
   }
 }

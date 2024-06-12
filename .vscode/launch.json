@@ -6,7 +6,7 @@
     "configurations": [
         {
             "name": "Attach",
-            "port": 5501,
+            "port": 5500,
             "request": "attach",
             "skipFiles": [
                 "<node_internals>/**"
@@ -18,7 +18,7 @@
             "type": "chrome",
             "request": "launch",
             "name": "Launch Chrome against localhost",
-            "url": "http://localhost:5501",
+            "url": "http://localhost:5500",
             "webRoot": "${workspaceFolder}"
         }
     ]

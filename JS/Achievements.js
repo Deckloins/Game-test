@@ -37,8 +37,7 @@ class Achievement {
     }
 
     static saveUserAchievementsToJSON(filePath, unlockedAchievements) {
-        const data = JSON.stringify(unlockedAchievements);
-        saveJSON(data, filePath);
+        saveJSON(unlockedAchievements, filePath);
     }
 }
 
