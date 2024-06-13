@@ -1,7 +1,7 @@
 // Player.js
 class Player {
 	constructor(size, speed) {
-    this.x = 5;
+		this.x = 5;
 		this.y = 5;
 		this.size = size;
 		this.speed = speed;
@@ -29,3 +29,4 @@ class Player {
 		square(this.x, this.y, this.size);
 	}
 }
+

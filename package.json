@@ -1,0 +1,28 @@
+{
+  "name": "game-test",
+  "version": "1.1.0",
+  "description": "Jeu que j'ai inventé\r Me sert à expérimenter avec de nouveaux concepts\r que j'apprends dans mes temps libres",
+  "main": "index.js",
+  "scripts": {
+    "test": "echo \"Error: no test specified\" && exit 1",
+    "start": "node server.js"
+  },
+  "repository": {
+    "type": "git",
+    "url": "git+https://github.com/Deckloins/Game-test.git"
+  },
+  "author": "Tristan",
+  "license": "ISC",
+  "bugs": {
+    "url": "https://github.com/Deckloins/Game-test/issues"
+  },
+  "homepage": "https://github.com/Deckloins/Game-test#readme",
+  "dependencies": {
+    "dotenv": "^16.4.5",
+    "express": "^4.19.2",
+    "mongodb": "^6.7.0",
+    "mongoose": "^8.4.1",
+    "npm": "^10.8.1",
+    "p5": "^1.9.4"
+  }
+}
