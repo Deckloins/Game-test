@@ -16,7 +16,7 @@ class Achievement {
 		return false;
 	}
 
-	static async loadAchievementsFromDB() {
+	static async loadAchievementsFromAPI() {
 		const achievements = [];
 		try {
 			const response = await fetch("/achievements");
@@ -30,10 +30,10 @@ class Achievement {
 		return achievements;
 	}
 
-	static async loadUserAchievementsFromDB() {
+	static async loadUserAchievementsFromAPI(userId) {
 		let unlockedAchievements = [];
 		try {
-			const response = await fetch("/user-achievements");
+			const response = await fetch(`/user-achievements/${userId}`);
 			const unlockedAchievementsData = await response.json();
 			for (const achievementId of unlockedAchievementsData) {
 				unlockedAchievements.push(achievementId);
@@ -44,45 +44,55 @@ class Achievement {
 		return unlockedAchievements;
 	}
 
-	static saveUserAchievementsToDB(unlockedAchievements) {
-		fetch("/user-achievements", {
-			method: "POST",
-			headers: {
-				"Content-Type": "application/json",
-			},
-			body: JSON.stringify(unlockedAchievements),
-		})
-			.then((response) => {
-				if (response.ok) {
-					// TODO implement saving to the DB
-					console.log("User achievements data saved successfully");
-				} else {
-					console.error(
-						"Couldn't save user achievement data:",
-						response.status
-					);
-				}
-			})
-			.catch((error) => {
-				console.error("Error saving user achievements data:", error);
+	static async saveUserAchievementsToAPI(userId, unlockedAchievements) {
+		try {
+			const response = await fetch("/user-achievements", {
+				method: "POST",
+				headers: {
+					"Content-Type": "application/json",
+				},
+				body: JSON.stringify({
+					userId,
+					achievementIds: unlockedAchievements,
+				}),
 			});
+			if (response.ok) {
+				console.log("User achievements data saved successfully");
+			} else {
+				console.error(
+					"Couldn't save user achievement data:",
+					response.status
+				);
+			}
+		} catch (error) {
+			console.error("Error saving user achievements data:", error);
+		}
 	}
 }
 
 class AchievementManager {
-	constructor(gamePanel) {
+	constructor(gamePanel, userId) {
 		this.achievements = [];
 		this.unlockedAchievements = [];
 		this.gamePanel = gamePanel;
+		this.userId = userId;
 	}
 
 	async loadAchievements() {
-		this.achievements = await Achievement.loadAchievementsFromDB();
+		try {
+			this.achievements = await Achievement.loadAchievementsFromAPI();
+		} catch (error) {
+			console.error("Error loading achievements:", error);
+		}
 	}
 
 	async loadUserAchievements() {
-		this.unlockedAchievements =
-			await Achievement.loadUserAchievementsFromDB();
+		try {
+			this.unlockedAchievements =
+				await Achievement.loadUserAchievementsFromAPI(this.userId);
+		} catch (error) {
+			console.error("Error loading user achievements:", error);
+		}
 	}
 
 	check() {
@@ -91,13 +101,21 @@ class AchievementManager {
 				!this.unlockedAchievements.includes(achievement.id) &&
 				achievement.check(this.gamePanel)
 			) {
+				console.log(this.unlockedAchievements);
 				this.unlockedAchievements.push(achievement.id);
 			}
 		}
 	}
 
-	saveUserAchievements() {
-		Achievement.saveUserAchievementsToDB(this.unlockedAchievements);
+	async saveUserAchievements() {
+		try {
+			await Achievement.saveUserAchievementsToAPI(
+				this.userId,
+				this.unlockedAchievements
+			);
+		} catch (error) {
+			console.error("Error saving user achievements:", error);
+		}
 	}
 }
 

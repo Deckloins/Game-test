@@ -1,7 +1,11 @@
-const achievementsData = require("../../data/achievement_data.json");
+const Achievement = require('../models/achievementsModel');
 
-// TODO: Replace with DB logic
-exports.getAchievements = (req, res) => {
-	res.json(achievementsData);
+// Get all achievements
+exports.getAchievements = async (req, res) => {
+  try {
+    const achievements = await Achievement.find();
+    res.json(achievements);
+  } catch (error) {
+    res.status(500).json({ error: error.message });
+  }
 };
-
