@@ -7,15 +7,25 @@ class GamePanel {
 		this.timeLeft = 10;
 		this.scorePosition = 340;
 		this.save = 0;
+		this.snapchot = {
+			score: 0,
+			timeLeft: 0,
+			isEaten: false,
+		}
 	}
 
 	update() {
 		this.player.move();
 		if (this.food.isEat(this.player)) {
+			this.snapchot = {
+				score: this.score,
+				timeLeft: this.timeLeft,
+				isEaten: true,
+			}
 			this.score++;
 			this.timeLeft = 10;
+			
 		}
-
 		if (this.player.didMove(this) && !this.gameOver()) {
 			this.timeLeft -= 1 / 60;
 		}
@@ -39,7 +49,8 @@ class GamePanel {
 		background(100);
 		this.player.show();
 		this.food.show();
-
+		this.snapchot.isEaten = false;
+		
 		fill(255);
 		textSize(25);
 		text("Score :", 300, 30);
