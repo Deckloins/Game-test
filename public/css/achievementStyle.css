@@ -18,32 +18,40 @@ body {
 }
 
 h1 {
-    display: grid;
-    place-content: center;
+    width: 100%;
 }
 
 .container {
+    display: block;
+    align-items: flex-start;
     max-width: 800px;
     margin: 0 auto;
     padding: 20px;
+    ;
 }
 
 #achievements-list {
     display: flex;
     flex-wrap: wrap;
-    justify-content: space-around;
+    align-content: flex-start;
 }
 
 .achievement {
+    flex: 0 0 calc(33.33% - 20px);
     background: #fff;
     border: 1px solid #ddd;
     border-radius: 5px;
     padding: 15px;
     margin: 10px;
-    width: 45%;
+    width: 33%;
     box-shadow: 0 0 10px rgba(0, 0, 0, 0.1);
+    width: 100%;
+    box-sizing: border-box;
 }
 
+.achievement * {
+    box-sizing: border-box;
+}
 .achievement h2 {
     margin-top: 0;
 }
