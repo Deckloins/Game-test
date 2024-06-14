@@ -1,0 +1,23 @@
+canvas#defaultCanvas0 {
+	display: flex;
+	margin: auto;
+}
+
+#backButton {
+	display: flex;
+	appearance: none;
+	outline: none;
+	font-size: 3vmin;
+	border: 3px solid black;
+	background: white;
+}
+
+#backButton:hover {
+  background-color: black;
+  color: white;
+}
+
+body {
+	font-family: system-ui, sans-serif;
+	background-color: #f4f4f4;
+}

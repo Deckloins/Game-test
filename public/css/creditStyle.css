@@ -1,0 +1,23 @@
+#credits {
+	text-align: center;
+	vertical-align: top;
+	
+}
+
+#backButton {
+	appearance: none;
+	outline: none;
+	font-size: 3vmin;
+	border: 3px solid black;
+	background: white;
+}
+
+#backButton:hover {
+  background-color: black;
+  color: white;
+}
+
+body {
+	background-color: #f4f4f4;
+}
+
