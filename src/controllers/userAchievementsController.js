@@ -1,6 +1,8 @@
 const UserAchievement = require("../models/userAchievementsModel");
+const Achievement = require('../models/achievementsModel');
 
-// Get all user achievements
+
+// Get user achievements
 exports.getUserAchievements = async (req, res) => {
 	const { userId } = req.params;
 	try {
@@ -11,7 +13,7 @@ exports.getUserAchievements = async (req, res) => {
 	}
 };
 
-// Post user achievement
+// Post user achievements
 exports.postUserAchievements = async (req, res) => {
 	const { userId, achievementIds } = req.body;
 

@@ -3,14 +3,24 @@ document.addEventListener("DOMContentLoaded", async () => {
 
     try {
         const response = await fetch('/user-achievements/1');  // Replace with the actual user ID
-        const achievements = await response.json();
+        const userAchievements = await response.json();
 
-        if (achievements.length === 0) {
+        const response2 = await fetch('/achievements');
+        const allAchievements = await response2.json();
+
+        const mergedArray = userAchievements.map(id => {
+            const obj = allAchievements.find(item => item.id === id);
+            return obj ? { id, ...obj } : { id };
+        });
+        
+        
+
+        if (userAchievements.length === 0) {
             achievementsList.innerHTML = `<p>No achievements yet :(</p>`;
             return;
         }
 
-        achievements.forEach(achievement => {
+        mergedArray.forEach(achievement => {
             const achievementDiv = document.createElement('div');
             achievementDiv.classList.add('achievement');
 
