@@ -1,0 +1,61 @@
+body {
+    font-family: system-ui, sans-serif;
+    background-color: #f4f4f4;
+    color: #333;
+}
+
+#backButton {
+	appearance: none;
+	outline: none;
+	font-size: 3vmin;
+	border: 3px solid black;
+	background: white;
+}
+
+#backButton:hover {
+  background-color: #333;
+  color: white;
+}
+
+h1 {
+    width: 100%;
+}
+
+.container {
+    display: block;
+    align-items: flex-start;
+    max-width: 800px;
+    margin: 0 auto;
+    padding: 20px;
+    ;
+}
+
+#achievements-list {
+    display: flex;
+    flex-wrap: wrap;
+    align-content: flex-start;
+}
+
+.achievement {
+    flex: 0 0 calc(33.33% - 20px);
+    background: #fff;
+    border: 1px solid #ddd;
+    border-radius: 5px;
+    padding: 15px;
+    margin: 10px;
+    width: 33%;
+    box-shadow: 0 0 10px rgba(0, 0, 0, 0.1);
+    width: 100%;
+    box-sizing: border-box;
+}
+
+.achievement * {
+    box-sizing: border-box;
+}
+.achievement h2 {
+    margin-top: 0;
+}
+
+.achievement p {
+    margin: 5px 0;
+}

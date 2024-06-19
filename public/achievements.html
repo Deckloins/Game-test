@@ -3,20 +3,25 @@
 	<head>
 		<meta charset="UTF-8" />
 		<title>My First Project - Achievements</title>
-		<script src="Achievements.js"></script>
+		<link
+			rel="stylesheet"
+			type="text/css"
+			href="css/achievementStyle.css"
+		/>
 	</head>
 
 	<body>
-		<h1>Achievements</h1>
-		<ul id="achievementsList">
-			<!-- Achievements will be dynamically added here -->
-		</ul>
 		<button id="backButton" onclick="window.location.href='index.html'">
 			Back
 		</button>
-		<script>
-			// Load and display achievements
-		</script>
+
+		<div class="container">
+			<h1>My Achievements</h1>
+			<div id="achievements-list"></div>
+
+			<!-- <h3>Not unlocked yet : </h2> -->
+		</div>
+		<script type="module" src="./js/showAchievements.js"></script>
 	</body>
 </html>
 
