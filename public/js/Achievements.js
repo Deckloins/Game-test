@@ -19,7 +19,7 @@ class Achievement {
 	static async loadAchievementsFromAPI() {
 		const achievements = [];
 		try {
-			const response = await fetch("/achievements");
+			const response = await fetch("/api/v1/achievements");
 			const achievementData = await response.json();
 			for (const achievementObj of achievementData) {
 				achievements.push(new Achievement(achievementObj));
@@ -33,7 +33,7 @@ class Achievement {
 	static async loadUserAchievementsFromAPI(userId) {
 		let unlockedAchievements = [];
 		try {
-			const response = await fetch(`/user-achievements/${userId}`);
+			const response = await fetch(`/api/v1/user-achievements/${userId}`);
 			const unlockedAchievementsData = await response.json();
 			for (const achievementId of unlockedAchievementsData) {
 				unlockedAchievements.push(achievementId);
@@ -46,7 +46,7 @@ class Achievement {
 
 	static async saveUserAchievementsToAPI(userId, unlockedAchievements) {
 		try {
-			const response = await fetch("/user-achievements", {
+			const response = await fetch("/api/v1/user-achievements", {
 				method: "POST",
 				headers: {
 					"Content-Type": "application/json",

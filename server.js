@@ -2,9 +2,8 @@ const express = require("express");
 const path = require("path");
 const mongoose = require("mongoose");
 const dotenv = require("dotenv");
-const achievementsRoutes = require("./src/routes/achievementsRoutes");
-const userAchievementsRoutes = require("./src/routes/userAchievementsRoutes");
-
+const achievementsRoutes = require("./src/routes/v1/achievementsRoutes");
+const userAchievementsRoutes = require("./src/routes/v1/userAchievementsRoutes");
 
 dotenv.config();
 
@@ -20,8 +19,8 @@ mongoose.connect(process.env.MONGODB_URI, {
   .catch(err => console.error('MongoDB connection error:', err));
 
 // Use routes
-app.use("/achievements", achievementsRoutes);
-app.use("/user-achievements", userAchievementsRoutes);
+app.use("/api/v1/achievements", achievementsRoutes);
+app.use("/api/v1/user-achievements", userAchievementsRoutes);
 
 // Serve main HTML file
 app.get("/", (req, res) => {

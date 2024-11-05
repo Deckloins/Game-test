@@ -2,10 +2,10 @@ document.addEventListener("DOMContentLoaded", async () => {
     const achievementsList = document.getElementById('achievements-list');
 
     try {
-        const response = await fetch('/user-achievements/1');  // Replace with the actual user ID
+        const response = await fetch('/api/v1/user-achievements/2');  // Replace with the actual user ID
         const userAchievements = await response.json();
 
-        const response2 = await fetch('/achievements');
+        const response2 = await fetch('/api/v1/achievements');
         const allAchievements = await response2.json();
 
         const mergedArray = userAchievements.map(id => {
@@ -13,8 +13,6 @@ document.addEventListener("DOMContentLoaded", async () => {
             return obj ? { id, ...obj } : { id };
         });
         
-        
-
         if (userAchievements.length === 0) {
             achievementsList.innerHTML = `<p>No achievements yet :(</p>`;
             return;
