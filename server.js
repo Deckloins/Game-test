@@ -7,7 +7,7 @@ const userAchievementsRoutes = require("./src/routes/v1/userAchievementsRoutes")
 
 const Database = require("@sqlitecloud/drivers");
 
-// const db = new Database('sqlitecloud://cvudomimnk.sqlite.cloud:8860/achievements?apikey=1tIXLs8c8F5PviwEUZozPpQ6BCjtrMZSnEuUWKmhrxs');
+// const db = new Database(process.env.SQLITE_URI');
 // let result = db.sql('list tables');
 // console.log(result);
 
