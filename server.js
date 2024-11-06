@@ -5,6 +5,12 @@ const dotenv = require("dotenv");
 const achievementsRoutes = require("./src/routes/v1/achievementsRoutes");
 const userAchievementsRoutes = require("./src/routes/v1/userAchievementsRoutes");
 
+const Database = require("@sqlitecloud/drivers");
+
+// const db = new Database('sqlitecloud://cvudomimnk.sqlite.cloud:8860/achievements?apikey=1tIXLs8c8F5PviwEUZozPpQ6BCjtrMZSnEuUWKmhrxs');
+// let result = db.sql('list tables');
+// console.log(result);
+
 dotenv.config();
 
 const app = express();
