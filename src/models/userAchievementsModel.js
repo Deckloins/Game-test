@@ -1,8 +1,26 @@
-const mongoose = require('mongoose');
+const { Sequelize, DataTypes } = require("sequelize");
+const dotenv = require("dotenv");
 
-const userAchievementSchema = new mongoose.Schema({
-  userId: {type: Number, required: true},
-  achievementId: {type: Number, required: true}
+dotenv.config();
+
+const sequelize = new Sequelize(process.env.SQLITE_URI, {
+  dialect: 'sqlite',
 });
 
-module.exports = mongoose.model('UserAchievementModel', userAchievementSchema);
+const userAchievementSchema = sequelize.define('userAchievementsModel', {
+  id: {
+    type: DataTypes.INTEGER,
+    primaryKey: true,
+    autoIncrement: true
+  },
+  userId: {
+    type: DataTypes.INTEGER,
+    allowNull: false
+  },
+  achievementId: {
+    type: DataTypes.INTEGER,
+    allowNull: false
+  }
+});
+
+module.exports = userAchievementSchema;

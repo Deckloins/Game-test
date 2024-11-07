@@ -5,8 +5,8 @@
         {
             "previewLimit": 50,
             "driver": "SQLite",
-            "database": "sqlitecloud://cvudomimnk.sqlite.cloud:8860/achievements?apikey=1tIXLs8c8F5PviwEUZozPpQ6BCjtrMZSnEuUWKmhrxs",
-            "name": "achievements"
+            "database": "mainDB.db",
+            "name": "mainDB"
         }
     ]
 }

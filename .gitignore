@@ -4,3 +4,7 @@ tests
 TODO.md
 .env
 coverage/
+mainDB.db
+sqlite:./
+mainDB.db-shm
+mainDB.db-wal
