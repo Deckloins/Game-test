@@ -13,7 +13,7 @@ class Achievement {
 		}
 
 		const match = checkFunction.match(
-			/^\\(\\s*gamePanel\\s*\\)\\s*=>\\s*gamePanel\\.score\\s*(>=|>|<=|<|===|==)\\s*(\\d+(?:\\.\\d+)?)\\s*$/
+			/^\(\s*gamePanel\s*\)\s*=>\s*gamePanel\.score\s*(>=|>|<=|<|===|==)\s*(\d+(?:\.\d+)?)\s*$/
 		);
 		if (!match) {
 			return () => false;
