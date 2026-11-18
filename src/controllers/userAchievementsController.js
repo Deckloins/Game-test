@@ -4,10 +4,13 @@ const Achievement = require('../models/achievementsModel');
 
 // Get user achievements
 exports.getUserAchievements = async (req, res) => {
-	const { userId } = req.params;
+	const userId = Number(req.params.userId);
+	if (!Number.isInteger(userId) || userId < 1) {
+		return res.status(400).json({ error: "A valid userId is required" });
+	}
 	try {
 		const userAchievements = await UserAchievement.find({ userId });
-		res.json(userAchievements.map((ua) => ua.achievementId));
+		res.json([...new Set(userAchievements.map((ua) => ua.achievementId))]);
 	} catch (error) {
 		res.status(500).json({ error: error.message });
 	}
@@ -16,29 +19,28 @@ exports.getUserAchievements = async (req, res) => {
 // Post user achievements
 exports.postUserAchievements = async (req, res) => {
 	const { userId, achievementIds } = req.body;
-
+	const numericUserId = Number(userId);
+	if (!Number.isInteger(numericUserId) || numericUserId < 1 ||
+		!Array.isArray(achievementIds) ||
+		!achievementIds.every((id) => Number.isInteger(id) && id >= 0)) {
+		return res.status(400).json({ error: "userId and achievementIds must be valid" });
+	}
 	try {
-		const existingAchievements = await UserAchievement.find({ userId });
-		const existingAchievementIds = existingAchievements.map(
-			(ua) => ua.achievementId
+		const knownIds = new Set(
+			(await Achievement.find({ id: { $in: [...new Set(achievementIds)] } }, { id: 1 })).map((item) => item.id)
 		);
-
-		const newAchievements = achievementIds.filter(
-			(id) => !existingAchievementIds.includes(id)
-		);
-
-		const newAchievementDocs = newAchievements.map((achievementId) => ({
-			userId,
-			achievementId,
-		}));
-
-		if (newAchievementDocs.length > 0) {
-			await UserAchievement.insertMany(newAchievementDocs);
+		for (const achievementId of new Set(achievementIds)) {
+			if (!knownIds.has(achievementId)) {
+				return res.status(400).json({ error: `Unknown achievementId: ${achievementId}` });
+			}
+			await UserAchievement.updateOne(
+				{ userId: numericUserId, achievementId },
+				{ $setOnInsert: { userId: numericUserId, achievementId } },
+				{ upsert: true }
+			);
 		}
-
-		res.status(200).send("User achievements saved successfully");
+		res.status(200).json({ saved: [...new Set(achievementIds)] });
 	} catch (error) {
 		res.status(500).json({ error: error.message });
 	}
 };
-

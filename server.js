@@ -13,11 +13,6 @@ app.use(express.json());
 app.use(express.static(path.join(__dirname, "public")));
 app.use("/node_modules", express.static(path.join(__dirname, "node_modules")));
 
-mongoose.connect(process.env.MONGODB_URI, {
-  })
-  .then(() => console.log('MongoDB connected'))
-  .catch(err => console.error('MongoDB connection error:', err));
-
 // Use routes
 app.use("/api/v1/achievements", achievementsRoutes);
 app.use("/api/v1/user-achievements", userAchievementsRoutes);
@@ -28,7 +23,27 @@ app.get("/", (req, res) => {
 });
 
 // Start the server
-const PORT = process.env.PORT || 3000;
-app.listen(PORT, () => console.log(`Server is running on port ${PORT}`));
+async function initializeDatabase() {
+  if (!process.env.MONGODB_URI) {
+    throw new Error("MONGODB_URI is required");
+  }
+  await mongoose.connect(process.env.MONGODB_URI);
+  console.log("MongoDB connected");
+}
+
+async function start() {
+  await initializeDatabase();
+  const PORT = process.env.PORT || 3000;
+  return app.listen(PORT, () => console.log(`Server is running on port ${PORT}`));
+}
+
+if (require.main === module) {
+  start().catch((error) => {
+    console.error("Server initialization failed:", error);
+    process.exit(1);
+  });
+}
 
 module.exports = app;
+module.exports.initializeDatabase = initializeDatabase;
+module.exports.start = start;

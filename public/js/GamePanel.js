@@ -36,7 +36,9 @@ class GamePanel {
 			if (this.save == 0) {
 				this.save++;
 				console.log("Saving...");
-				achievementManager.saveUserAchievements();
+				achievementManager.saveUserAchievements().catch((error) => {
+					console.error("Error saving user achievements:", error);
+				});
 			}
 			this.score = 0;
 			this.timeLeft = 0;
@@ -71,4 +73,3 @@ class GamePanel {
 		}
 	}
 }
-
