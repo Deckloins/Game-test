@@ -17,13 +17,37 @@ exports.getUserAchievements = async (req, res) => {
 exports.postUserAchievements = async (req, res) => {
 	const { userId, achievementIds } = req.body;
 
+	if (
+		typeof userId !== "number" ||
+		!Number.isInteger(userId) ||
+		!Array.isArray(achievementIds) ||
+		achievementIds.some(
+			(id) => typeof id !== "number" || !Number.isInteger(id)
+		)
+	) {
+		return res.status(400).json({
+			error: "userId and achievementIds must contain valid IDs",
+		});
+	}
+
 	try {
+		const uniqueAchievementIds = [...new Set(achievementIds)];
+		const achievements = await Achievement.find({
+			id: { $in: uniqueAchievementIds },
+		});
+
+		if (achievements.length !== uniqueAchievementIds.length) {
+			return res.status(400).json({
+				error: "One or more achievement IDs are invalid",
+			});
+		}
+
 		const existingAchievements = await UserAchievement.find({ userId });
 		const existingAchievementIds = existingAchievements.map(
 			(ua) => ua.achievementId
 		);
 
-		const newAchievements = achievementIds.filter(
+		const newAchievements = uniqueAchievementIds.filter(
 			(id) => !existingAchievementIds.includes(id)
 		);
 
@@ -41,4 +65,3 @@ exports.postUserAchievements = async (req, res) => {
 		res.status(500).json({ error: error.message });
 	}
 };
-

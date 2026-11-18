@@ -3,8 +3,33 @@ class Achievement {
 		this.id = obj.id;
 		this.name = obj.name;
 		this.description = obj.description;
-		this.checkFunction = eval(`(${obj.checkFunction})`);
+		this.checkFunction = Achievement.createSafeCheck(obj.checkFunction);
 		this.unlocked = false;
+	}
+
+	static createSafeCheck(checkFunction) {
+		if (typeof checkFunction !== "string") {
+			return () => false;
+		}
+
+		const match = checkFunction.match(
+			/^\\(\\s*gamePanel\\s*\\)\\s*=>\\s*gamePanel\\.score\\s*(>=|>|<=|<|===|==)\\s*(\\d+(?:\\.\\d+)?)\\s*$/
+		);
+		if (!match) {
+			return () => false;
+		}
+
+		const [, operator, value] = match;
+		const threshold = Number(value);
+		const comparisons = {
+			">=": (score) => score >= threshold,
+			">": (score) => score > threshold,
+			"<=": (score) => score <= threshold,
+			"<": (score) => score < threshold,
+			"===": (score) => score === threshold,
+			"==": (score) => score == threshold,
+		};
+		return (gamePanel) => comparisons[operator](gamePanel.score);
 	}
 
 	check(gamePanel) {
@@ -20,6 +45,9 @@ class Achievement {
 		const achievements = [];
 		try {
 			const response = await fetch("/api/v1/achievements");
+			if (!response.ok) {
+				throw new Error(`Achievements request failed: ${response.status}`);
+			}
 			const achievementData = await response.json();
 			for (const achievementObj of achievementData) {
 				achievements.push(new Achievement(achievementObj));
@@ -34,6 +62,9 @@ class Achievement {
 		let unlockedAchievements = [];
 		try {
 			const response = await fetch(`/api/v1/user-achievements/${userId}`);
+			if (!response.ok) {
+				throw new Error(`User achievements request failed: ${response.status}`);
+			}
 			const unlockedAchievementsData = await response.json();
 			for (const achievementId of unlockedAchievementsData) {
 				unlockedAchievements.push(achievementId);
@@ -118,4 +149,3 @@ class AchievementManager {
 		}
 	}
 }
-

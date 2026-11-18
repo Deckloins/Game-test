@@ -3,9 +3,15 @@ document.addEventListener("DOMContentLoaded", async () => {
 
     try {
         const response = await fetch('/api/v1/user-achievements/2');  // Replace with the actual user ID
+        if (!response.ok) {
+            throw new Error(`User achievements request failed: ${response.status}`);
+        }
         const userAchievements = await response.json();
 
         const response2 = await fetch('/api/v1/achievements');
+        if (!response2.ok) {
+            throw new Error(`Achievements request failed: ${response2.status}`);
+        }
         const allAchievements = await response2.json();
 
         const mergedArray = userAchievements.map(id => {
@@ -22,10 +28,11 @@ document.addEventListener("DOMContentLoaded", async () => {
             const achievementDiv = document.createElement('div');
             achievementDiv.classList.add('achievement');
 
-            achievementDiv.innerHTML = `
-                <h2>${achievement.name}</h2>
-                <p>${achievement.description}</p>
-            `;
+            const heading = document.createElement('h2');
+            heading.textContent = achievement.name || '';
+            const description = document.createElement('p');
+            description.textContent = achievement.description || '';
+            achievementDiv.append(heading, description);
 
             achievementsList.appendChild(achievementDiv);
         });
