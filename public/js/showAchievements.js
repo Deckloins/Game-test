@@ -1,12 +1,18 @@
 document.addEventListener("DOMContentLoaded", async () => {
     const achievementsList = document.getElementById('achievements-list');
+    const queryUserId = new URLSearchParams(window.location.search).get('userId');
+    const storedUserId = window.localStorage
+        ? window.localStorage.getItem('gameTest.userId')
+        : null;
+    const userId = Number(queryUserId || storedUserId);
 
+    if (!Number.isInteger(userId) || userId < 1) {
+        achievementsList.innerHTML = `<p>A valid user ID is required.</p>`;
+        return;
+    }
     try {
-        const response = await fetch('/api/v1/user-achievements/2');  // Replace with the actual user ID
-        const userAchievements = await response.json();
-
-        const response2 = await fetch('/api/v1/achievements');
-        const allAchievements = await response2.json();
+        const { achievements: allAchievements, unlockedIds: userAchievements } =
+            await window.AchievementApi.loadPage(userId);
 
         const mergedArray = userAchievements.map(id => {
             const obj = allAchievements.find(item => item.id === id);

@@ -4,7 +4,7 @@
   "description": "Jeu que j'ai inventé\r Me sert à expérimenter avec de nouveaux concepts\r que j'apprends dans mes temps libres",
   "main": "index.js",
   "scripts": {
-    "test": "echo \"Error: no test specified\" && exit 1",
+    "test": "node --test",
     "start": "node server.js",
     "stop": "node server.stop.js"
   },
@@ -21,6 +21,7 @@
   "dependencies": {
     "dotenv": "^16.4.5",
     "express": "^4.19.2",
+    "express-rate-limit": "^8.7.4",
     "mongodb": "^6.7.0",
     "mongoose": "^8.4.1",
     "npm": "^11.8.0",

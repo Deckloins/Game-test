@@ -1,72 +1,66 @@
+class AchievementApi {
+	static async getAll() {
+		const response = await fetch("/api/v1/achievements");
+		if (!response.ok) throw new Error(`Achievement fetch failed: ${response.status}`);
+		return response.json();
+	}
+
+	static async getUnlocked(userId) {
+		const response = await fetch(`/api/v1/user-achievements/${encodeURIComponent(userId)}`);
+		if (!response.ok) throw new Error(`User achievement fetch failed: ${response.status}`);
+		return response.json();
+	}
+
+	static async saveUnlocked(userId, achievementIds) {
+		const response = await fetch("/api/v1/user-achievements", {
+			method: "POST",
+			headers: { "Content-Type": "application/json" },
+			body: JSON.stringify({ userId, achievementIds }),
+		});
+		if (!response.ok) throw new Error(`Achievement save failed: ${response.status}`);
+		return response.json();
+	}
+
+	static async loadPage(userId) {
+		const [achievements, unlockedIds] = await Promise.all([
+			AchievementApi.getAll(),
+			AchievementApi.getUnlocked(userId),
+		]);
+		return { achievements, unlockedIds };
+	}
+}
+
+window.AchievementApi = AchievementApi;
+
+class AchievementRuleEvaluator {
+	static validate(rule) {
+		return Boolean(rule && rule.type === "score" &&
+			rule.operator === ">=" &&
+			Number.isInteger(rule.value) && rule.value >= 0);
+	}
+
+	static evaluate(rule, gameState) {
+		return AchievementRuleEvaluator.validate(rule) &&
+			gameState != null && typeof gameState.score === "number" &&
+			gameState.score >= rule.value;
+	}
+}
+
 class Achievement {
 	constructor(obj) {
 		this.id = obj.id;
 		this.name = obj.name;
 		this.description = obj.description;
-		this.checkFunction = eval(`(${obj.checkFunction})`);
+		this.rule = obj.rule;
 		this.unlocked = false;
 	}
 
 	check(gamePanel) {
-		if (this.checkFunction(gamePanel)) {
-			console.log(`Unlocked ${this.name}`);
+		if (AchievementRuleEvaluator.evaluate(this.rule, gamePanel)) {
 			this.unlocked = true;
 			return true;
 		}
 		return false;
-	}
-
-	static async loadAchievementsFromAPI() {
-		const achievements = [];
-		try {
-			const response = await fetch("/api/v1/achievements");
-			const achievementData = await response.json();
-			for (const achievementObj of achievementData) {
-				achievements.push(new Achievement(achievementObj));
-			}
-		} catch (error) {
-			console.error("Error fetching the achievements data:", error);
-		}
-		return achievements;
-	}
-
-	static async loadUserAchievementsFromAPI(userId) {
-		let unlockedAchievements = [];
-		try {
-			const response = await fetch(`/api/v1/user-achievements/${userId}`);
-			const unlockedAchievementsData = await response.json();
-			for (const achievementId of unlockedAchievementsData) {
-				unlockedAchievements.push(achievementId);
-			}
-		} catch (error) {
-			console.error("Error fetching the user achievements data:", error);
-		}
-		return unlockedAchievements;
-	}
-
-	static async saveUserAchievementsToAPI(userId, unlockedAchievements) {
-		try {
-			const response = await fetch("/api/v1/user-achievements", {
-				method: "POST",
-				headers: {
-					"Content-Type": "application/json",
-				},
-				body: JSON.stringify({
-					userId,
-					achievementIds: unlockedAchievements,
-				}),
-			});
-			if (response.ok) {
-				console.log("User achievements data saved successfully");
-			} else {
-				console.error(
-					"Couldn't save user achievement data:",
-					response.status
-				);
-			}
-		} catch (error) {
-			console.error("Error saving user achievements data:", error);
-		}
 	}
 }
 
@@ -76,46 +70,36 @@ class AchievementManager {
 		this.unlockedAchievements = [];
 		this.gamePanel = gamePanel;
 		this.userId = userId;
+		this.initialized = false;
+		this.initialization = null;
 	}
 
-	async loadAchievements() {
-		try {
-			this.achievements = await Achievement.loadAchievementsFromAPI();
-		} catch (error) {
-			console.error("Error loading achievements:", error);
-		}
-	}
-
-	async loadUserAchievements() {
-		try {
-			this.unlockedAchievements =
-				await Achievement.loadUserAchievementsFromAPI(this.userId);
-		} catch (error) {
-			console.error("Error loading user achievements:", error);
-		}
+	async initialize() {
+		if (this.initialization) return this.initialization;
+		this.initialization = (async () => {
+			if (!Number.isInteger(this.userId) || this.userId < 1) {
+				throw new Error("A valid achievement userId is required");
+			}
+			const achievementData = await AchievementApi.getAll();
+			this.achievements = achievementData.map((item) => new Achievement(item));
+			this.unlockedAchievements = await AchievementApi.getUnlocked(this.userId);
+			this.initialized = true;
+		})();
+		return this.initialization;
 	}
 
 	check() {
+		if (!this.initialized) return;
 		for (const achievement of this.achievements) {
-			if (
-				!this.unlockedAchievements.includes(achievement.id) &&
-				achievement.check(this.gamePanel)
-			) {
-				console.log(this.unlockedAchievements);
+			if (!this.unlockedAchievements.includes(achievement.id) &&
+				achievement.check(this.gamePanel)) {
 				this.unlockedAchievements.push(achievement.id);
 			}
 		}
 	}
 
 	async saveUserAchievements() {
-		try {
-			await Achievement.saveUserAchievementsToAPI(
-				this.userId,
-				this.unlockedAchievements
-			);
-		} catch (error) {
-			console.error("Error saving user achievements:", error);
-		}
+		if (!this.initialized) await this.initialize();
+		await AchievementApi.saveUnlocked(this.userId, this.unlockedAchievements);
 	}
 }
-
